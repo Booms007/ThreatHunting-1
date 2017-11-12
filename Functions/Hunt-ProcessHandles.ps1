@@ -51,7 +51,7 @@
     	[Parameter(ValueFromPipeline=$True, ValueFromPipelineByPropertyName=$True)]
         $Computer = $env:COMPUTERNAME,
         [Parameter(mandatory=$true)]
-        $ToolLocation,
+        [string]$ToolLocation,
         [Parameter()]
         $Fails
     );
@@ -95,8 +95,14 @@
         
         Write-Verbose ("{0}: Copying {1} to {0}." -f $Computer, $tool);
         
-        try{Copy-Item -Path $($ToolLocation+'\'+$tool) -Destination $('\\'+$Computer+'\c$\temp\'+$tool); 
-        }catch{$Error[0]};
+        try
+        {
+            Copy-Item -Path $($ToolLocation+'\'+$tool) -Destination $('\\'+$Computer+'\c$\temp\'+$tool); 
+        }
+        catch
+        {
+            $Error.exception;
+        }
 
         $handles = $null;
         $handles = Invoke-Command -ComputerName $Computer -ErrorAction SilentlyContinue -ScriptBlock { 
@@ -139,7 +145,7 @@
 
             };
             Remove-Item -Path $('\\'+$Computer+'\c$\temp\'+$tool);
-            return $outputArray[0..12000];#select first 12000
+            return $outputArray;
 
         }
         else {
