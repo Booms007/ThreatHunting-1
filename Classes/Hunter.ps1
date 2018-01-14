@@ -48,7 +48,7 @@ class Hunter {
         $this.Results | ForEach-Object {
             $_ | Add-Member -MemberType NoteProperty -Name "Target" -Value $this.Target;
             $_ | Add-Member -MemberType NoteProperty -Name "Time" -Value $(Get-Date);
-        }
+        };
         
         if ($this.Results -ne $null) {
 
@@ -66,10 +66,10 @@ class Hunter {
 };
 
 ## Test Area
-$a = @("localxhost", "127.0.0.1")
+#$a = @("localxhost", "127.0.0.1")
 
-$a | ForEach-Object {
-    $test = New-Object Hunter($_);
+#$a | ForEach-Object {
+#    $test = New-Object Hunter($_);
 #    $test.CIMInstance("Win32_StartupCommand");}
-    ($test.CIMInstance("Win32_StartupCommand")).Results | Select-Object *;}
+#    ($test.CIMInstance("Win32_StartupCommand")).Results | Select-Object *;};
 #$test.CIMInstance('localhost', "Win32_StartupCommand") | Select-Object *;
